@@ -1,0 +1,1182 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scientia — A Névoa da Desinformação</title>
+<img src="Nevoa.png" style="width:100%; border-radius:14px; margin:20px 0; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+  <style>
+    :root{
+      --bg:#07111d;
+      --bg2:#0d1728;
+      --panel:rgba(14,23,40,.82);
+      --panel2:rgba(10,16,28,.92);
+      --line:rgba(255,255,255,.10);
+      --text:#eef2ff;
+      --muted:#b6c0d6;
+      --gold:#e9c46a;
+      --gold2:#f4d58d;
+      --green:#7dd3a7;
+      --red:#f08b8b;
+      --violet:#b9a5ff;
+      --shadow:0 20px 60px rgba(0,0,0,.45);
+      --radius:24px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:
+      radial-gradient(circle at 20% 10%, rgba(233,196,106,.14), transparent 24%),
+      radial-gradient(circle at 80% 10%, rgba(185,165,255,.12), transparent 22%),
+      linear-gradient(180deg,var(--bg),#08111f 45%, #050b14 100%);
+      color:var(--text); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; min-height:100%;}
+    body:before{
+      content:""; position:fixed; inset:0; pointer-events:none;
+      background: radial-gradient(circle at 50% 80%, rgba(255,255,255,.08), transparent 18%);
+      filter: blur(40px); opacity:.8;
+    }
+    .wrap{max-width:1280px;margin:0 auto;padding:22px}
+    .topbar{
+      display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px;
+    }
+    .brand small{display:block;letter-spacing:.28em;text-transform:uppercase;color:#9aa5bc;font-size:12px}
+    .brand h1{margin:8px 0 0;font-size:clamp(24px,4vw,36px)}
+    .status-pill{border:1px solid var(--line);background:rgba(255,255,255,.04);padding:10px 14px;border-radius:999px;color:var(--muted);font-size:14px}
+    .shell{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+    @media (max-width: 980px){.shell{grid-template-columns:1fr}}
+    .card{
+      background:linear-gradient(180deg,var(--panel),var(--panel2));
+      border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+    .card-inner{padding:22px}
+    .hero{
+      display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:center;
+    }
+    @media (max-width: 980px){.hero{grid-template-columns:1fr}}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+      background:rgba(233,196,106,.12);border:1px solid rgba(233,196,106,.2);color:var(--gold2);
+      font-size:12px;letter-spacing:.25em;text-transform:uppercase}
+    .title{font-size:clamp(34px,5vw,62px);line-height:.95;margin:14px 0}
+    .lead{color:var(--muted);font-size:18px;line-height:1.6;max-width:760px}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+    @media (max-width: 760px){.grid3{grid-template-columns:1fr}}
+    .mini{padding:16px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.03)}
+    .mini b{display:block;margin-bottom:6px}
+    .btnrow{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+    button, .btn{
+      appearance:none;border:none;cursor:pointer;border-radius:18px;padding:14px 18px;
+      font-size:15px; font-weight:700; transition:.18s transform,.18s background,.18s opacity;
+    }
+    button:hover,.btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:linear-gradient(180deg,#f2d27f,#ddb351); color:#23180a}
+    .btn-secondary{background:rgba(255,255,255,.06); color:var(--text); border:1px solid var(--line)}
+    .btn-danger{background:rgba(240,139,139,.13); color:#ffd4d4; border:1px solid rgba(240,139,139,.24)}
+    .scene{
+      position:relative; min-height:320px;border-radius:28px; overflow:hidden; border:1px solid var(--line);
+      background:linear-gradient(180deg,#111b2c,#0b1220);
+    }
+    .scene svg{display:block;width:100%;height:100%}
+    .mist{
+      position:absolute; inset:auto 0 0 0; height:140px;
+      background:radial-gradient(circle at 30% 50%, rgba(255,255,255,.14), transparent 26%),
+                 radial-gradient(circle at 70% 60%, rgba(255,255,255,.12), transparent 25%),
+                 linear-gradient(180deg, transparent, rgba(214,220,232,.12));
+      filter: blur(14px);
+      opacity: var(--mistOpacity, .7);
+      transition: opacity .5s ease;
+      pointer-events:none;
+    }
+    .sidebar{display:flex;flex-direction:column;gap:18px}
+    .panel-title{font-size:12px;text-transform:uppercase;letter-spacing:.25em;color:#9aa5bc;margin-bottom:10px}
+    .progress{height:12px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+    .bar{height:100%;width:70%;background:linear-gradient(90deg,#cdd6f6,#b79cff,#f0d28d);transition:width .45s ease}
+    .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .stat{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:18px;padding:14px}
+    .stat .v{font-size:24px;font-weight:800;margin-top:4px}
+    .screen{display:none}
+    .screen.active{display:block}
+    .auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    @media (max-width: 900px){.auth-grid{grid-template-columns:1fr}}
+    label{display:block;color:var(--muted);font-size:14px;margin-bottom:8px}
+    input[type=text],input[type=password],textarea,select{
+      width:100%;background:rgba(255,255,255,.04);border:1px solid var(--line); color:var(--text);
+      padding:14px 16px;border-radius:18px;outline:none; font-size:15px;
+    }
+    textarea{min-height:110px;resize:vertical}
+    .field{margin-bottom:14px}
+    .choices{display:grid;gap:10px;margin-top:14px}
+    .choice{
+      width:100%; text-align:left; border:1px solid var(--line); background:rgba(255,255,255,.04);
+      color:var(--text); border-radius:18px; padding:14px 16px; font-weight:600;
+    }
+    .choice small{display:block;color:var(--muted);font-weight:500;margin-top:4px}
+    .banner{
+      padding:14px 16px;border-radius:18px;border:1px solid var(--line);margin:14px 0;line-height:1.6
+    }
+    .banner.good{background:rgba(125,211,167,.12); border-color:rgba(125,211,167,.26); color:#d8ffec}
+    .banner.bad{background:rgba(240,139,139,.12); border-color:rgba(240,139,139,.26); color:#ffe1e1}
+    .banner.info{background:rgba(185,165,255,.12); border-color:rgba(185,165,255,.26); color:#efe8ff}
+    .kicker{color:var(--gold2); text-transform:uppercase; font-size:12px; letter-spacing:.25em}
+    h2,h3,h4,p{margin-top:0}
+    .hidden{display:none !important}
+    .section-box{padding:20px;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.03);margin-bottom:16px}
+    .inline{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    .dice-area{
+      display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;
+      border:1px solid var(--line);border-radius:22px;padding:16px;background:rgba(255,255,255,.03)
+    }
+    .dice-output{
+      min-width:84px;height:84px;border-radius:22px;display:grid;place-items:center;
+      font-size:28px;font-weight:900;color:#1f1404;background:linear-gradient(180deg,#f5ddb0,#ddb351);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 10px 30px rgba(0,0,0,.25);
+    }
+    .dice-visual-wrap{display:flex;align-items:center;justify-content:center;padding:4px 0}
+    .dice-visual{width:108px;height:108px;filter:drop-shadow(0 14px 28px rgba(0,0,0,.35));transform-origin:center center}
+    .dice-visual svg{width:100%;height:100%;display:block}
+    .dice-visual.rolling{animation:d20Spin 1s ease-in-out infinite}
+    .dice-visual .glow{animation:d20Glow 2.2s ease-in-out infinite}
+    .dice-visual .num{font-size:24px;font-weight:900;fill:#fff4d6}
+    @keyframes d20Spin{
+      0%{transform:rotate(0deg) scale(1)}
+      25%{transform:rotate(90deg) scale(1.06)}
+      50%{transform:rotate(180deg) scale(.96)}
+      75%{transform:rotate(270deg) scale(1.04)}
+      100%{transform:rotate(360deg) scale(1)}
+    }
+    @keyframes d20Glow{
+      0%,100%{opacity:.45}
+      50%{opacity:.95}
+    }
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}
+    th{color:#cfd7eb}
+    .admin-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+    .tag{display:inline-block;padding:5px 8px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:12px;color:#d7def0}
+    .footer-note{color:#98a3bb;font-size:13px;line-height:1.5}
+    .sticky{position:sticky;top:18px}
+    .small{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand">
+      <small>P&P • Metodologia Científica/TCC</small>
+      <h1>Scientia — A Névoa da Desinformação</h1>
+    </div>
+    <div class="status-pill" id="sessionStatus">Sessão não iniciada</div>
+  </div>
+
+  <section id="screen-auth" class="screen active">
+    <div class="card">
+      <div class="card-inner hero">
+        <div>
+          <div class="eyebrow"> Avaliação - Metodologia Científica/TCC 2026.1</div>
+          <div class="title">A ciência só resiste <br>quando é clara, ética e rigorosa.</div>
+          <p class="lead">
+            Prof. Lauren Bohner|
+            Universidade Federal de Santa Catarina (UFSC)
+          </p>
+          <div class="grid3">
+            <div class="mini"><b>Missões completas</b><span class="small">Inclui todas as etapas do enredo do arquivo.</span></div>
+            <div class="mini"><b>Rolagem automática</b><span class="small">Testes com D20 para sabedoria e atributos.</span></div>
+            <div class="mini"><b>Painel do administrador</b><span class="small">Respostas visíveis apenas no modo admin local.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:18px"></div>
+
+    <div class="auth-grid">
+      <div class="card">
+        <div class="card-inner">
+          <div class="kicker">Entrar como jogador</div>
+          <h2>Iniciar jornada</h2>
+          <div class="field">
+            <label for="playerName">Nome do jogador</label>
+            <input id="playerName" type="text" placeholder="Ex.: P1-Scientia" />
+          </div>
+          <div class="field">
+            <label for="playerClass">Turma / grupo</label>
+            <input id="playerClass" type="text" placeholder="Ex.: G10-Líder" />
+          </div>
+          <button class="btn-primary" id="startPlayerBtn">Entrar no Conselho</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-inner">
+          <div class="kicker">Entrar como administrador</div>
+          <h2>Painel reservado</h2>
+          <div class="field">
+            <label for="adminPass">Senha do administrador</label>
+            <input id="adminPass" type="password" placeholder="Digite a senha" />
+          </div>
+          <button class="btn-secondary" id="adminLoginBtn">Abrir painel</button>
+          <p class="footer-note" style="margin-top:14px">
+            Nesta versão, o acesso do administrador funciona localmente no navegador. A senha padrão está definida no código
+            e pode ser alterada depois.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-game" class="screen">
+    <div class="shell">
+      <div>
+        <div class="card">
+          <div class="card-inner" id="gameContent"></div>
+        </div>
+      </div>
+      <div class="sidebar">
+        <div class="card sticky">
+          <div class="card-inner">
+            <div class="panel-title">Painel do pesquisador</div>
+            <div class="inline" style="justify-content:space-between">
+              <div>
+                <div id="playerDisplay" style="font-weight:800;font-size:24px">Jogador</div>
+                <div id="groupDisplay" class="small">Turma</div>
+              </div>
+              <span class="tag" id="chapterTag">Capítulo 1</span>
+            </div>
+            <div style="height:16px"></div>
+            <div class="inline" style="justify-content:space-between">
+              <div class="small">Névoa da desinformação</div>
+              <div id="mistPct" class="small">78%</div>
+            </div>
+            <div class="progress"><div class="bar" id="mistBar"></div></div>
+            <div style="height:16px"></div>
+            <div class="stats"></div>
+            <div style="height:16px"></div>
+            <div class="section-box">
+              <div class="panel-title">Resumo da jornada</div>
+              <div id="summaryBox" class="small">As decisões corretas reduzem a névoa. Respostas inadequadas podem reiniciar a etapa.</div>
+            </div>
+            <div class="inline">
+              <button class="btn-secondary" id="saveExitBtn">Salvar e sair</button>
+              <button class="btn-danger" id="restartBtn">Reiniciar jornada</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-admin" class="screen">
+    <div class="card">
+      <div class="card-inner">
+        <div class="inline" style="justify-content:space-between">
+          <div>
+            <div class="kicker">Painel do administrador</div>
+            <h2 style="margin-bottom:6px">Respostas dos jogadores</h2>
+            <div class="small">Visível apenas no modo administrador local.</div>
+          </div>
+          <button class="btn-secondary" id="adminBackBtn">Sair do painel</button>
+        </div>
+        <div style="height:12px"></div>
+        <div class="admin-actions">
+          <button class="btn-secondary" id="exportBtn">Exportar JSON</button>
+          <button class="btn-secondary" id="refreshAdminBtn">Atualizar</button>
+          <button class="btn-danger" id="clearAllBtn">Apagar todos os registros</button>
+        </div>
+        <div id="adminTable"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<script>
+(function(){
+  const ADMIN_PASSWORD = "admin123";
+  const STORAGE_KEY = "arkhe_rpg_records_v3";
+  const SAVE_KEY = "arkhe_rpg_current_session_v3";
+
+  const DEFAULT_ATTRS = {
+    sabedoria: 0,
+    carisma: 0,
+    sagacidade: 0,
+    resiliencia: 0,
+    rigor: 0,
+    inteligencia: 0
+  };
+
+  const ATTR_LABELS = {
+    sabedoria: "Sabedoria",
+    carisma: "Carisma",
+    sagacidade: "Sagacidade",
+    resiliencia: "Resiliência",
+    rigor: "Rigor",
+    inteligencia: "Inteligência"
+  };
+
+  const state = {
+    mode: null,
+    playerName: "",
+    playerClass: "",
+    sessionId: null,
+    currentStep: "intro-story",
+    mist: 78,
+    lastMessage: "",
+    attrs: {...DEFAULT_ATTRS},
+    mission3: {
+      sabedoria:null, carisma:null, sagacidade:null, resiliencia:null, rigor:null, inteligencia:null
+    },
+    answers: {},
+    finalOutcome: null
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const screens = {
+    auth: $("screen-auth"),
+    game: $("screen-game"),
+    admin: $("screen-admin")
+  };
+  const gameContent = $("gameContent");
+
+  function escapeHtml(str){
+    return String(str ?? "").replace(/[&<>\"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+  }
+
+  function showScreen(name){
+    Object.values(screens).forEach(el => el.classList.remove("active"));
+    screens[name].classList.add("active");
+  }
+
+  function saveCurrentSession(){
+    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+    $("sessionStatus").textContent = state.mode === "player"
+      ? `Jogador: ${state.playerName}`
+      : state.mode === "admin" ? "Modo administrador" : "Sessão não iniciada";
+  }
+
+  function pushRecord(){
+    if(!state.sessionId) return;
+    const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    const idx = records.findIndex(r => r.sessionId === state.sessionId);
+    const base = {
+      sessionId: state.sessionId,
+      playerName: state.playerName,
+      playerClass: state.playerClass,
+      updatedAt: new Date().toISOString(),
+      currentStep: state.currentStep,
+      attrs: state.attrs,
+      answers: state.answers,
+      mission3: state.mission3,
+      finalOutcome: state.finalOutcome
+    };
+    if(idx >= 0) records[idx] = {...records[idx], ...base};
+    else records.push({...base, createdAt: new Date().toISOString()});
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    saveCurrentSession();
+  }
+
+  function answer(key, value){
+    state.answers[key] = value;
+    pushRecord();
+  }
+
+  function updateMist(value){
+    state.mist = Math.max(0, Math.min(100, value));
+    $("mistBar").style.width = state.mist + "%";
+    $("mistPct").textContent = state.mist + "%";
+  }
+
+  function setChapter(label){
+    $("chapterTag").textContent = label;
+  }
+
+  function renderStatsEditor(){
+    const box = document.querySelector('.stats');
+    if(!box) return;
+    const keys = ["sabedoria","carisma","sagacidade","resiliencia","rigor","inteligencia"];
+    box.innerHTML = keys.map(key => `
+      <div class="stat">
+        <div class="small">${ATTR_LABELS[key]}</div>
+        <input data-attr="${key}" type="number" step="1" value="${Number(state.attrs[key] ?? 0)}" style="width:100%;margin-top:8px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;padding:10px 12px;font-size:18px;font-weight:700" />
+      </div>
+    `).join('');
+    box.querySelectorAll('input[data-attr]').forEach(inp => {
+      inp.onchange = () => {
+        const key = inp.dataset.attr;
+        const n = parseInt(inp.value, 10);
+        state.attrs[key] = Number.isFinite(n) ? n : 0;
+        answer('atributo_' + key, state.attrs[key]);
+        state.lastMessage = 'Os atributos do pesquisador foram atualizados.';
+        saveCurrentSession();
+        pushRecord();
+      };
+    });
+  }
+
+  function updateSidebar(){
+    $("playerDisplay").textContent = state.playerName || "Jogador";
+    $("groupDisplay").textContent = state.playerClass || "Turma não informada";
+    $("summaryBox").textContent = state.lastMessage || "As decisões corretas reduzem a névoa. Respostas inadequadas podem reiniciar a etapa.";
+    updateMist(state.mist);
+    renderStatsEditor();
+    saveCurrentSession();
+    pushRecord();
+  }
+
+  function backToAuth(){
+    saveCurrentSession();
+    state.mode = null;
+    showScreen('auth');
+  }
+
+  function restartMission(step){
+    state.currentStep = step;
+    state.lastMessage = 'A névoa se adensa. O Conselho exige que você tente novamente.';
+    updateSidebar();
+    render();
+  }
+
+  function freshPlayer(){
+    state.mode = 'player';
+    state.currentStep = 'intro-story';
+    state.mist = 78;
+    state.lastMessage = 'A jornada começou.';
+    state.attrs = {...DEFAULT_ATTRS};
+    state.mission3 = {sabedoria:null, carisma:null, sagacidade:null, resiliencia:null, rigor:null, inteligencia:null};
+    state.answers = {};
+    state.finalOutcome = null;
+    state.sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+  }
+
+  function nextStep(step){
+    state.currentStep = step;
+    render();
+  }
+  window.nextStep = nextStep;
+
+  function getD20Visual(id){
+    return `
+      <div class="dice-visual-wrap">
+        <div class="dice-visual" id="${id}" aria-hidden="true">
+          <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img">
+            <defs>
+              <linearGradient id="grad-${id}" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#ffe5a8"/>
+                <stop offset="55%" stop-color="#e0b45c"/>
+                <stop offset="100%" stop-color="#8f6321"/>
+              </linearGradient>
+            </defs>
+            <polygon class="glow" points="60,6 107,34 107,86 60,114 13,86 13,34" fill="rgba(244,213,141,.18)"/>
+            <polygon points="60,10 102,35 102,85 60,110 18,85 18,35" fill="url(#grad-${id})" stroke="#fff0c8" stroke-width="3"/>
+            <polyline points="60,10 60,110" stroke="rgba(255,244,214,.45)" stroke-width="2" fill="none"/>
+            <polyline points="18,35 60,58 102,35" stroke="rgba(255,244,214,.35)" stroke-width="2" fill="none"/>
+            <polyline points="18,85 60,58 102,85" stroke="rgba(255,244,214,.35)" stroke-width="2" fill="none"/>
+            <text x="60" y="67" text-anchor="middle" class="num">20</text>
+          </svg>
+        </div>
+      </div>`;
+  }
+
+  function animateDie(targetId, callback, visualId){
+    const el = $(targetId);
+    const visual = visualId ? $(visualId) : null;
+    if(visual) visual.classList.add('rolling');
+    let ticks = 0;
+    const it = setInterval(() => {
+      el.textContent = 1 + Math.floor(Math.random() * 20);
+      ticks++;
+      if(ticks >= 12){
+        clearInterval(it);
+        const final = 1 + Math.floor(Math.random() * 20);
+        el.textContent = final;
+        if(visual) visual.classList.remove('rolling');
+        callback(final);
+      }
+    }, 70);
+  }
+
+  function outcomeLabel(total){
+    return total >= 15 ? 'capacidade alta' : total >= 10 ? 'capacidade boa' : total >= 5 ? 'dificuldade baixa' : 'dificuldade';
+  }
+
+  function feedbackSummary(key){
+    const data = state.mission3[key];
+    if(!data || data.total == null) return 'Não realizado';
+    return `D20 ${data.roll} + modificador ${data.modifier} = ${data.total} — ${data.feedback}`;
+  }
+
+  function testFeedback(key, total){
+    if(key === 'sabedoria'){
+      return total >= 15 ? 'Capacidade alta de lidar com viés.' : total >= 10 ? 'Capacidade boa de lidar com viés.' : total >= 5 ? 'Dificuldade baixa em lidar com viés.' : 'Dificuldade em lidar com viés durante experimentos.';
+    }
+    if(key === 'carisma'){
+      return total >= 15 ? 'Capacidade alta de recrutamento.' : total >= 10 ? 'Capacidade boa de recrutamento.' : 'Capacidade baixa de recrutamento.';
+    }
+    if(key === 'sagacidade'){
+      return total >= 15 ? 'Capacidade alta de randomização.' : total >= 10 ? 'Capacidade boa de randomização.' : 'Capacidade baixa de randomização.';
+    }
+    if(key === 'resiliencia'){
+      return total >= 15 ? 'Capacidade alta de alocação aleatória.' : total >= 10 ? 'Capacidade boa de alocação aleatória.' : 'Capacidade baixa de alocação aleatória.';
+    }
+    if(key === 'rigor'){
+      return total >= 15 ? 'Capacidade alta de alocação aleatória.' : total >= 10 ? 'Capacidade boa de alocação aleatória.' : 'Capacidade baixa de alocação aleatória.';
+    }
+    if(key === 'inteligencia'){
+      return total >= 15 ? 'Capacidade alta de calcular o tamanho amostral.' : total >= 10 ? 'Capacidade boa de calcular o tamanho amostral.' : 'Capacidade baixa de calcular o tamanho amostral.';
+    }
+    return '';
+  }
+
+  function render(){
+    updateSidebar();
+    const s = state.currentStep;
+
+    if(s === 'intro-story'){
+      setChapter('Capítulo 1');
+      gameContent.innerHTML = `
+        <div class="kicker">Avaliação 2</div>
+        <h2>A Névoa da Desinformação</h2>
+<img src="Nevoa-Vilarejo.png" style="width:100%; border-radius:14px; margin:20px 0; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+        <p>A história se passa em no mundo de Scientia. O ano é 1450, dia 28 de abril. Scientia é um mundo conhecido pela sua rápida evolução científica, onde o conhecimento é poder. A Academia de Veritas, Instituição renomada do mundo de Scientia, reúne os maiores pesquisadores, com o propósito de buscar a verdade e manter a integridade dos trabalhos científicos.</p>
+        <p>Você é um(a) pesquisador(a), jovem aprendiz, integrante da Ordem dos Pesquisadores, e pretende subir na hierarquia e se tornar um(a) grande cientista. Seu mestre, Veritas Nobel, foi o maior cientista que já passou pelo mundo de Scientia. Conhecido por suas atitudes audaciosas e sua integridade. A história conta que ele já recusou a fama para preservar a verdade encontrada em suas pesquisas, já destruiu sua própria descoberta por perceber o malefício que esta podia causar na população. Seus erros, inclusive, foram publicados, para que seus aprendizes evitassem futuras falhas metodológicas.</p>
+        <p>Na manhã do dia 28 de abril, enquanto você prepara o café, seu colega Arkan bate em sua porta, ofegante, com ar de assustado e um desespero no olhar. Sem conseguir pronunciar palavras, ele aponta para o laboratório do mestre Nobel. Você percebe que uma névoa paira sobre o laboratório. Arkan lhe entrega um manuscrito amassado e fala:</p>
+        <div class="banner info">_ O nosso mestre desapareceu. Sob seu laboratório paira apenas uma névoa cinza e escura. A névoa da desinformação está corrompendo dados, manipulando resultados e ameaçando a ciência. As pesquisas estão sendo manipuladas e o conhecimento está perdendo sua confiabilidade. Antes de desaparecer, o mestre escreveu este manuscrito…</div>
+        <p>Você pega o manuscrito e percebe que há um bilhete:</p>
+        <div class="quote">“A ciência não pertence aos gananciosos…e sim àqueles que mantem a sua integridade ética”</div>
+        <p>A única maneira de acabar com a névoa da desinformação é desenvolvendo um protocolo de pesquisa, fundamento em princípios éticos, baseado em evidências e bem estruturado, capaz de fornecer, por meio de uma análise estatística adequada, o conhecimento para responder à sua pergunta de pesquisa. O tema? Só um aprendiz audacioso como você pode saber o que é relevante e digno de ser pesquisado. Não se esqueça: isso só será possível se você usar o desenho de estudo adequado e realizar uma análise minuciosa dos dados.Você está pronto para a missão?</p>
+        <div class="btnrow"><button class="btn-primary" onclick="nextStep('mission-brief')">Aceitar missão</button></div>
+      `;
+      return;
+    }
+
+    if(s === 'mission-brief'){
+      setChapter('Capítulo 1');
+      gameContent.innerHTML = `
+        <div class="kicker">Missão</div>
+        <h2>Missão</h2>
+        <p>O Conselho de Cientistas o aguarda. Basta entrar e desenvolver o seu protocolo. Você será questionado e testado. Se falhar, não conseguirá seguir em frente. Se vencer a missão, você terá a oportunidade de concorrer ao prêmio final.</p>
+        <p>Vá até a sala de Conselhos para apresentar a sua proposta.</p>
+        <div class="btnrow"><button class="btn-primary" onclick="nextStep('council-arrival')">Seguir para a sala de Conselhos</button></div>
+      `;
+      return;
+    }
+
+    if(s === 'council-arrival'){
+      setChapter('Capítulo 1');
+      gameContent.innerHTML = `
+        <div class="kicker">A Academia de Veritas</div>
+        <h2>A sala dos Conselhos</h2>
+<img src="Conselho.png" style="width:100%; border-radius:14px; margin:20px 0; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+        <p>Você chega na sala dos Conselhos, localizada na Academia de Veritas, onde os maiores Cientistas se reúnem para tomar decisões decisivas para o futuro da Pesquisa. Vocês entra e é recebido com um olhar apreensivo. O silêncio tomou conta da grande sala de pedra. As tochas tremulam nas paredes, projetando sombras que parecem sussurrar verdades esquecidas. Ao centro, a imponente mesa redonda aguarda. Ali estão eles. Os mais antigos. Os mais sábios. O Conselho de Veritas. Você avança lentamente. Cada passo ecoa como um julgamento.</p>
+        <p>Uma névoa cinzenta começa a se infiltrar pelas frestas da sala. Ela se move silenciosamente…Observando. Esperando. A mesma Névoa da Desinformação que corrompeu ideias e distorceu dados irá fazê-lo fazê-los desistir, fazendo-o acreditar que sua proposta era absurda.</p>
+        <p>O líder sênior ergue os olhos. Sua voz é firme, mas carregada de peso:</p>
+        <div class="quote">“A ciência não é aquilo que vocês acreditam…<br>mas aquilo que conseguem sustentar. Nenhuma ideia é tão absurda que não possa ser considerada”</div>
+        <p>A névoa se intensifica. Ela circula a mesa. Toca os pergaminhos. Tenta distorcer as palavras escritas.</p>
+        <p>O líder do Conselho continua:</p>
+        <div class="quote">“Se houver falha… a névoa crescerá.”<br>“Qualquer má conduta… e ela consumirá este mundo.”<br>“Mas… se houver rigor, ética e clareza…”</div>
+        <p>Ele faz uma pausa, e a sala inteira prende a respiração.</p>
+        <div class="quote">“...Então a verdade prevalecerá.”</div>
+        <p>Chegou o seu momento. Agora, todos os olhares estão sobre vocês. Chegou a hora de apresentar o início de sua jornada: o protocolo de pesquisa.</p>
+        
+        <div class="btnrow"><button class="btn-primary" onclick="nextStep('q1')">Apresentar protocolo</button></div>
+      `;
+      return;
+    }
+
+    if(s === 'q1'){
+      setChapter('Missão 1');
+      gameContent.innerHTML = `
+        <div class="kicker">Seção 1 — Missão 1</div>
+        <h2>O propósito de tudo</h2>
+        <div class="field">
+          <label>PERGUNTA 1 — Defina o tema e o objetivo do trabalho.</label>
+          <textarea id="q1Input" placeholder="Escreva o tema e o objetivo do trabalho...">${escapeHtml(state.answers.q1 || '')}</textarea>
+        </div>
+        <div class="btnrow"><button class="btn-primary" id="q1Next">Continuar</button></div>
+      `;
+      $('q1Next').onclick = () => {
+        const val = $('q1Input').value.trim();
+        if(!val){ alert('Preencha o tema e o objetivo do trabalho.'); return; }
+        answer('q1', val);
+        state.lastMessage = 'O propósito inicial foi registrado.';
+        state.currentStep = 'q2';
+        updateMist(70);
+        render();
+      };
+      return;
+    }
+
+    if(s === 'q2'){
+      setChapter('Missão 1');
+      gameContent.innerHTML = `
+        <div class="kicker">Seção 1 — Missão 1</div>
+        <h2>PERGUNTA 2</h2>
+        <p>A névoa começa a distorcer o pensamento _ tudo parece certo…mas nada está realmente claro. O que fazer para deixar mais claro o propósito do trabalho?</p>
+        <div class="choices">
+          <button class="choice" data-v="A">A) Aceitar como está.</button>
+          <button class="choice" data-v="B">B) Refinar com base em acrônimos .</button>
+          <button class="choice" data-v="C">C) Apenas coletar dados e depois refinar o objetivo do trabalho.</button>
+          <button class="choice" data-v="D">D) Deixar o objetivo mais amplo, eliminando variáveis específicas, como a população que será estudada, o local do estudo, ou o que será avaliado.</button>
+        </div>
+        <div id="q2Feedback"></div>
+      `;
+      document.querySelectorAll('.choice').forEach(btn => btn.onclick = () => {
+        const v = btn.dataset.v;
+        answer('q2', v);
+        if(v === 'B'){
+          $('q2Feedback').innerHTML = `<div class="banner good">A proposta foi refinada com base em acrônimos. O Conselho permite avançar para a próxima seção.</div>`;
+          state.lastMessage = 'Você refinou o propósito do trabalho.';
+          updateMist(60);
+          setTimeout(() => { state.currentStep = 'q3'; render(); }, 900);
+        } else {
+          $('q2Feedback').innerHTML = `<div class="banner bad">A névoa cresce. Esta escolha finaliza e reinicia a etapa.</div>`;
+          updateMist(90);
+          setTimeout(() => restartMission('q2'), 1200);
+        }
+      });
+      return;
+    }
+
+    if(s === 'q3'){
+      setChapter('Seção 2 — Missão 2');
+      gameContent.innerHTML = `
+        <div class="kicker">Seção 2 — MISSÃO 2</div>
+        <h2>A pergunta mal formulada</h2>
+        <p>PERGUNTA 3 — Role o d20 de sabedoria. Qual o número encontrado?</p>
+        <div class="dice-area">
+          <div>
+            <div class="small">Rolagem automática</div>
+            <p style="margin:8px 0 0">Nesta etapa, a rolagem segue o enunciado original: apenas o valor do d20.</p>
+          </div>
+          <div>
+            ${getD20Visual('diceQ3Visual')}
+            <div class="dice-output" id="diceQ3">?</div>
+          </div>
+        </div>
+        <div class="btnrow"><button class="btn-primary" id="rollQ3">Rolar d20 de sabedoria</button></div>
+        <div id="q3Result"></div>
+      `;
+      $('rollQ3').onclick = () => {
+        animateDie('diceQ3', (n) => {
+          answer('q3', n);
+          if(n <= 6){
+            $('q3Result').innerHTML = `<div class="banner bad">Resultado ${n}. Se A - TENTE NOVAMENTE.</div>`;
+            updateMist(84);
+          } else {
+            $('q3Result').innerHTML = `<div class="banner good">Resultado ${n}. Se B,C: Seção 3.</div>`;
+            updateMist(56);
+            setTimeout(() => { state.currentStep = 'q4'; render(); }, 900);
+          }
+        }, 'diceQ3Visual');
+      };
+      return;
+    }
+
+    if(s === 'q4'){
+      setChapter('Seção 3 — Missão 2');
+      gameContent.innerHTML = `
+        <div class="kicker">Seção 3</div>
+        <h2>PERGUNTA 4</h2>
+        <p>Ótimo! Você tem sabedoria suficiente para deixar seu objetivo ainda mais claro. Formule a pergunta com base no PICO (P= Participantes, I = Interenção, C = Comparação, O = Desfecho (“Outcome”)).</p>
+        <div class="field">
+          <label>RESPOSTA</label>
+          <textarea id="picoInput" placeholder="Escreva sua pergunta com base no PICO...">${escapeHtml(state.answers.q4 || '')}</textarea>
+        </div>
+        <div class="btnrow"><button class="btn-primary" id="q4Next">Continuar</button></div>
+      `;
+      $('q4Next').onclick = () => {
+        const val = $('picoInput').value.trim();
+        if(!val){ alert('Preencha a pergunta com base no PICO.'); return; }
+        answer('q4', val);
+        state.lastMessage = 'A pergunta foi formulada com base no PICO.';
+        state.currentStep = 'q5';
+        updateMist(50);
+        render();
+      };
+      return;
+    }
+
+    if(s === 'q5'){
+      setChapter('Seção 3 — Missão 2');
+      gameContent.innerHTML = `
+        <div class="kicker">Seção 3</div>
+        <h2>PERGUNTA 5</h2>
+        <p>O líder responde:</p>
+        <p>_ Ok, iremos analisar a sua proposta. Mas então, qual seria a sua hipótese nula?</p>
+        <p>Com base no objetivo do trabalho, formule a sua hipótese nula.</p>
+        <div class="field">
+          <label>RESPOSTA</label>
+          <textarea id="q5Input" placeholder="Escreva a hipótese nula...">${escapeHtml(state.answers.q5 || '')}</textarea>
+        </div>
+        <div class="btnrow"><button class="btn-primary" id="q5Next">Continuar</button></div>
+      `;
+      $('q5Next').onclick = () => {
+        const val = $('q5Input').value.trim();
+        if(!val){ alert('Preencha a hipótese nula.'); return; }
+        answer('q5', val);
+        state.lastMessage = 'A hipótese nula foi registrada.';
+        state.currentStep = 'q6';
+        updateMist(44);
+        render();
+      };
+      return;
+    }
+
+    if(s === 'q6'){
+      setChapter('Seção 4 — Missão 2');
+      gameContent.innerHTML = `
+        <div class="kicker">Seção 4 — MISSÃO 2</div>
+        <h2>O manuscrito</h2>
+        <p>PERGUNTA 6 — Seu colega chega para lhe ajudar com o desenvolvimento do trabalho. Você está escrevendo o referencial teórico (revisão de literatura) do seu trabalho, e seu colega copia um texto de outro artigo, apenas alterando poucas palavras, sem citar o autor. Isso é considerado plágio?</p>
+        <div class="choices">
+          <button class="choice" data-v="A">A) Não, pois mudou palavras e alterou o texto original.</button>
+          <button class="choice" data-v="B">B) Sim, é plágio, pois o texto mudou pouco e o autor não foi citado.</button>
+          <button class="choice" data-v="C">C) Não, como foi escrito com as próprias palavras, não é necessário citar o autor</button>
+          <button class="choice" data-v="D">D) Só é plágio se o texto for escrito exatamente igual ao artigo original.</button>
+        </div>
+        <div id="q6Feedback"></div>
+      `;
+      document.querySelectorAll('.choice').forEach(btn => btn.onclick = () => {
+        const v = btn.dataset.v;
+        answer('q6', v);
+        if(v === 'B'){
+          $('q6Feedback').innerHTML = `<div class="banner good">Conduta ética reconhecida.</div>`;
+          state.lastMessage = 'A integridade científica foi preservada.';
+          updateMist(36);
+          setTimeout(() => { state.currentStep = 'mission3-intro'; render(); }, 900);
+        } else {
+          $('q6Feedback').innerHTML = `<div class="banner bad">A névoa está crescendo. Tente novamente.</div>`;
+          updateMist(88);
+          setTimeout(() => restartMission('q6'), 1200);
+        }
+      });
+      return;
+    }
+
+    if(s === 'mission3-intro'){
+      setChapter('Missão 3');
+      gameContent.innerHTML = `
+        <div class="kicker">Texto</div>
+        <h2>Missão 3: Desenhando o estudo</h2>
+        <p>Até agora, o Conselho se mostra satisfeito com suas respostas. O líder fala:</p>
+        <p>_ Confesso que achei sua proposta um tanto curiosa, nunca havia pensado nisso por essa perspectiva. Porém, ainda estou intrigado em saber como você irá comprovar sua hipótese. Vamos apoiar o desenvolvimento do seu estudo, oferecendo recursos e infra-estrutura, caso se mostre capacitado para isso.</p>
+        <p>Agora, precisamos definir o desenho do seu estudo. Você terá a possibilidade de realizar pesquisas laboratoriais, clínicas, qualitativas, ou uma revisão sistemática, a depender do perfil do seu pesquisador. Para definir o tipo de pesquisa, você irá passar por alguns testes. O resultado do teste se baseará no número encontrado. Para chegar ao cálculo correto, consulte a ficha de pesquisador e calcule o valor do modificador de acordo com os pontos dos atributos de seu pesquisador. O valor final será calculado por: valor do modificador + valor da rolagem de dados. </p>
+        <div class="banner info">Conforme solicitado, nesta missão o jogo fornece apenas o feedback de capacidade. Ele não sugere diretamente qual estudo escolher.</div>
+        <div class="btnrow"><button class="btn-primary" onclick="nextStep('m3-test-sabedoria')">Iniciar testes</button></div>
+      `;
+      return;
+    }
+
+    const tests = {
+      'm3-test-sabedoria': {
+        key:'sabedoria',
+        title:'Capacidade de eliminar viés',
+        desc:'A capacidade do pesquisador de conseguir delinear a pesquisa, garantindo que vieses sejam eliminados e assegurando, assim, a confiabilidade dos resultados, está relacionado com sua Sabedoria. Role o D20 de sabedoria e anote o número encontrado.'
+      },
+      'm3-test-carisma': {
+        key:'carisma',
+        title:'Capacidade de recrutar pacientes',
+        desc:'A capacidade do pesquisador de recrutar pacientes é essencial para definir o tipo de pesquisa que será realizado. Esta característica está relacionada com a capacidade de carisma do pesquisador. Role o D20 de carisma e anote o número encontrado.'
+      },
+      'm3-test-sagacidade': {
+        key:'sagacidade',
+        title:'Capacidade de randomização',
+        desc:'A capacidade de randomização pacientes é essencial para eliminar viés de seleção, e é especialmente importante em ensaios clínicos. Esta capacidade está relacionada com a sagacidade do pesquisador. Role o D20 de sagacidade e anote o número encontrado.'
+      },
+      'm3-test-resiliencia': {
+        key:'resiliencia',
+        title:'Capacidade de alocação',
+        desc:'Quanto estamos selecionando os participantes/amostras da nossa pesquisa, nem sempre é possível que isso seja feito de maneira aleatória. Em alguns casos, as pesquisas são feitas com grupos/amostras conhecidas, ou seja, por conveniência, para facilitar o trabalho do pesquisador. A capacidade de alocar a amostra aleatoriamente está relacionada com a resiliência. Role o D20 de resiliência e anote o número encontrado.'
+      },
+      'm3-test-rigor': {
+        key:'rigor',
+        title:'Capacidade de inclusão/exclusão',
+        desc:'São os critérios de inclusão e exclusão que nos permitem definir a amostra a qual estaremos avaliando, seja esta de pacientes, corpos de prova, ou artigos científicos. Este critério é importante para evitar que fatores externos possam influenciar os nossos resultados. A capacidade de inclusão e exclusão está relacionada com o rigor do pesquisador. Role o D20 de Rigor e anote o número encontrado.'
+      },
+      'm3-test-inteligencia': {
+        key:'inteligencia',
+        title:'Capacidade de calcular o tamanho amostral',
+        desc:'Definir o tamanho da amostra é essencial para qualquer tipo de pesquisa. Com base neste cálculo, é possível evitar que o número da amostra seja muito baixo, dificultando encontrar resultados expressivos, ou que seja alto demais, aumento o custo e dificuldade da pesquisa. Porém, nem sempre é possível calcular o tamanho da amostra. A capacidade de calcular o tamanho da amostra está relacionada com a Inteligência do Pesquisador. Role o D20 de Inteligência e anote o número encontrado.'
+      }
+    };
+
+    if(tests[s]){
+      setChapter('Missão 3');
+      const t = tests[s];
+      const attrBase = Number(state.attrs[t.key] || 0);
+      gameContent.innerHTML = `
+        <div class="kicker">Missão 3</div>
+        <h2>${t.title}</h2>
+        <p>${t.desc}</p>
+        <div class="field">
+          <label>Modificador inteiro a ser somado à rolagem de dados</label>
+          <input id="testModifier" type="number" step="1" value="${attrBase}" />
+        </div>
+        <div class="dice-area">
+          <div>
+            <div class="small">Rolagem automática de d20</div>
+            <p style="margin:8px 0 0">O total será calculado como d20 + modificador informado.</p>
+          </div>
+          <div>
+            ${getD20Visual('diceAttrVisual')}
+            <div class="dice-output" id="diceAttr">?</div>
+          </div>
+        </div>
+        <div class="btnrow"><button class="btn-primary" id="rollAttrBtn">Rolar e registrar teste</button></div>
+        <div id="attrFeedback"></div>
+      `;
+      $('rollAttrBtn').onclick = () => {
+        animateDie('diceAttr', (roll) => {
+          const modifier = parseInt($('testModifier').value, 10);
+          const mod = Number.isFinite(modifier) ? modifier : 0;
+          const total = roll + mod;
+          const feedback = testFeedback(t.key, total);
+          state.mission3[t.key] = { roll, modifier: mod, total, feedback };
+          answer('m3_' + t.key, state.mission3[t.key]);
+          state.lastMessage = feedback;
+          $('attrFeedback').innerHTML = `<div class="banner good">D20 ${roll} + modificador ${mod} = ${total}. ${feedback}</div>`;
+          updateMist(Math.max(22, state.mist - 3));
+          const order = ['m3-test-sabedoria','m3-test-carisma','m3-test-sagacidade','m3-test-resiliencia','m3-test-rigor','m3-test-inteligencia'];
+          const idx = order.indexOf(s);
+          setTimeout(() => { state.currentStep = order[idx + 1] || 'q7'; render(); }, 1200);
+        }, 'diceAttrVisual');
+      };
+      return;
+    }
+
+    if(s === 'q7'){
+      setChapter('Missão 3');
+      gameContent.innerHTML = `
+        <div class="kicker">Finalizando os testes</div>
+        <h2>Pergunta 7</h2>
+        <p>Com base nas características do seu pesquisador, defina o tipo de estudo que será utilizado:</p>
+        <div class="section-box">
+          <div class="panel-title">Resumo dos testes</div>
+          <table>
+            <tr><th>Atributo</th><th>Resultado</th></tr>
+            <tr><td>Sabedoria</td><td>${feedbackSummary('sabedoria')}</td></tr>
+            <tr><td>Carisma</td><td>${feedbackSummary('carisma')}</td></tr>
+            <tr><td>Sagacidade</td><td>${feedbackSummary('sagacidade')}</td></tr>
+            <tr><td>Resiliência</td><td>${feedbackSummary('resiliencia')}</td></tr>
+            <tr><td>Rigor</td><td>${feedbackSummary('rigor')}</td></tr>
+            <tr><td>Inteligência</td><td>${feedbackSummary('inteligencia')}</td></tr>
+          </table>
+        </div>
+        <div class="choices">
+          <button class="choice" data-v="A">A – Ensaio clínico</button>
+          <button class="choice" data-v="B">B – Estudos clínicos coorte (Prospectivo ou Retrospectivo)</button>
+          <button class="choice" data-v="C">C- Pesquisa Qualitativa</button>
+          <button class="choice" data-v="D">D-Pesquisa laboratorial</button>
+          <button class="choice" data-v="E">E-Revisão sistemática</button>
+        </div>
+      `;
+      document.querySelectorAll('.choice').forEach(btn => btn.onclick = () => {
+        const v = btn.dataset.v;
+        answer('q7', v);
+        state.lastMessage = 'O Conselho registra o tipo de estudo escolhido.';
+        updateMist(28);
+        state.currentStep = v === 'D' ? 'q9' : v === 'E' ? 'q10' : 'q8';
+        render();
+      });
+      return;
+    }
+
+    if(s === 'q8'){
+      setChapter('Missão 4');
+      gameContent.innerHTML = `
+        <div class="kicker">Pergunta 8 — Missão 4</div>
+        <h2>O juramento dos participantes</h2>
+        <p>O seu desenho de estudo proposto necessita de aprovação do Comitê de Ética em Pesquisa?</p>
+        <div class="choices">
+          <button class="choice" data-v="A">A- Sim, por envolver materiais humanos</button>
+          <button class="choice" data-v="B">B- Não, pois não envolve contato direto com pacientes/participantes da pesquisa</button>
+          <button class="choice" data-v="C">C- Não, pois envolve apenas aplicação de questionários</button>
+          <button class="choice" data-v="D">D- Não, pois não envolve material humano</button>
+        </div>
+        <div id="ethicsFeedback"></div>
+      `;
+      document.querySelectorAll('.choice').forEach(btn => btn.onclick = () => {
+        const v = btn.dataset.v;
+        answer('q8', v);
+        const ok = v === 'A';
+        $('ethicsFeedback').innerHTML = `<div class="banner ${ok ? 'good' : 'bad'}">${ok ? 'Resposta correta.' : 'A névoa está cada vez mais densa.Tente novamente.'}</div>`;
+        state.lastMessage = ok ? 'Reconhecimento adequado da necessidade de aprovação ética.' : 'Houve erro na avaliação ética.';
+        state.currentStep = 'q11';
+        updateMist(ok ? 24 : 34);
+        setTimeout(render, 900);
+      });
+      return;
+    }
+
+    if(s === 'q9'){
+      setChapter('Missão 4');
+      gameContent.innerHTML = `
+        <div class="kicker">Pergunta 9 — Missão 4</div>
+        <h2>O juramento dos participantes</h2>
+        <p>O seu desenho de estudo proposto necessita de aprovação do Comitê de Ética em Pesquisa?</p>
+        <div class="choices">
+          <button class="choice" data-v="A">A- Sim, por envolver materiais de origem humana ou animal</button>
+          <button class="choice" data-v="B">B- Não, pois irei trabalhar com materiais de pacientes (ex. modelos de gesso ou exames laboratoriais), mas sem ter contato direto com pacientes</button>
+          <button class="choice" data-v="C">C- Não, pois irei trabalhar apenas com animais de laboratório devidamente registrados</button>
+          <button class="choice" data-v="D">D- Não, pois não envolve material de origem humana ou animal</button>
+        </div>
+        <div id="ethicsFeedback"></div>
+      `;
+      document.querySelectorAll('.choice').forEach(btn => btn.onclick = () => {
+        const v = btn.dataset.v;
+        answer('q9', v);
+        const ok = v === 'A' || v === 'D';
+        $('ethicsFeedback').innerHTML = `<div class="banner ${ok ? 'good' : 'bad'}">${ok ? 'Resposta Correta.' : 'A névoa está cada vez mais densa. Tente novamente.'}</div>`;
+        state.lastMessage = ok ? 'A decisão ética foi aceita pelo Conselho.' : 'Houve erro na avaliação ética.';
+        state.currentStep = 'q11';
+        updateMist(ok ? 24 : 34);
+        setTimeout(render, 900);
+      });
+      return;
+    }
+
+    if(s === 'q10'){
+      setChapter('Missão 4');
+      gameContent.innerHTML = `
+        <div class="kicker">Pergunta 10 — Missão 4</div>
+        <h2>O juramento dos participantes</h2>
+        <p>O seu desenho de estudo proposto necessita de aprovação do Comitê de Ética em Pesquisa?</p>
+        <div class="choices">
+          <button class="choice" data-v="A">A- Sim, por envolver análise de estudos clínicos previamente publicados</button>
+          <button class="choice" data-v="B">B- Não, pois se trata de uma revisão de literatura, e não envolve material de origem humana ou animal</button>
+        </div>
+        <div id="ethicsFeedback"></div>
+      `;
+      document.querySelectorAll('.choice').forEach(btn => btn.onclick = () => {
+        const v = btn.dataset.v;
+        answer('q10', v);
+        const ok = v === 'B';
+        $('ethicsFeedback').innerHTML = `<div class="banner ${ok ? 'good' : 'bad'}">${ok ? 'Resposta Correta.' : 'A névoa está crescendo.Tente novamente.'}</div>`;
+        state.lastMessage = ok ? 'A decisão ética foi aceita pelo Conselho.' : 'Houve erro na avaliação ética.';
+        state.currentStep = 'q11';
+        updateMist(ok ? 24 : 34);
+        setTimeout(render, 900);
+      });
+      return;
+    }
+
+    if(s === 'q11'){
+      setChapter('Missão 4');
+      gameContent.innerHTML = `
+        <div class="kicker">Pergunta 11</div>
+        <h2>O juramento dos participantes</h2>
+        <p>Considere a hipótese de que seu trabalho necessita de aprovação do Comitê de Ética em Pesquisa em Seres Humanos, pois você irá avaliar pacientes atendidos na Clínica Odontológica da UFSC. Os pacientes compareceram à consulta, porém, o avaliador não preparou o Termo de Consentimento Livre e Esclarecido para assinatura do paciente. O que fazer neste caso?</p>
+        <div class="choices">
+          <button class="choice" data-v="A">A- Continuar a avaliação clínica, pois o TCLE não é importante para o seu estudo</button>
+          <button class="choice" data-v="B">B- Parar a avaliação e regularizar o TCLE, e pegar a assinatura previamente à coleta de dados, pois não devemos coletar dados clínicos sem a autorização escrita do paciente</button>
+          <button class="choice" data-v="C">C- Continuar, pois a aprovação do CEP é suficiente para permitir o andamento da pesquisa</button>
+        </div>
+        <div id="q11Feedback"></div>
+      `;
+      document.querySelectorAll('.choice').forEach(btn => btn.onclick = () => {
+        const v = btn.dataset.v;
+        answer('q11', v);
+        const ok = v === 'B';
+        $('q11Feedback').innerHTML = `<div class="banner ${ok ? 'good' : 'bad'}">${ok ? 'Resposta Correta.' : 'A névoa está cada vez mais densa.Tente novamente.'}</div>`;
+        state.lastMessage = ok ? 'Você interrompeu a coleta até regularizar o TCLE.' : 'Houve falha ética importante.';
+        state.currentStep = 'mission5';
+        updateMist(ok ? 20 : 35);
+        setTimeout(render, 900);
+      });
+      return;
+    }
+
+    if(s === 'mission5'){
+      setChapter('Missão 5');
+      gameContent.innerHTML = `
+        <div class="kicker">MISSÃO 5</div>
+        <h2>O ENIGMA DOS NÚMEROS</h2>
+        <p>Dados não normais, colega sugere t-test. Qual decisão?</p>
+        <div class="choices">
+          <button class="choice" data-v="A">A) Usar t-test</button>
+          <button class="choice" data-v="B">B) Usar teste não paramétrico</button>
+          <button class="choice" data-v="C">C) Ignorar distribuição</button>
+          <button class="choice" data-v="D">D) Escolher qualquer teste</button>
+        </div>
+        <div id="q12Feedback"></div>
+      `;
+      document.querySelectorAll('.choice').forEach(btn => btn.onclick = () => {
+        const v = btn.dataset.v;
+        answer('mission5', v);
+        const ok = v === 'B';
+        $('q12Feedback').innerHTML = `<div class="banner ${ok ? 'good' : 'bad'}">${ok ? 'Decisão adequada para dados não normais.' : 'A análise estatística ficou comprometida.'}</div>`;
+        state.lastMessage = ok ? 'A análise estatística foi adequada.' : 'A decisão estatística foi inadequada.';
+        state.finalOutcome = ok ? 'solid' : 'fail';
+        updateMist(ok ? 8 : 52);
+        setTimeout(() => { state.currentStep = 'final-battle'; render(); }, 1000);
+      });
+      return;
+    }
+
+    if(s === 'final-battle'){
+      setChapter('Batalha final');
+      const solid = state.finalOutcome === 'solid';
+      gameContent.innerHTML = `
+        <div class="kicker">BATALHA FINAL</div>
+        <h2>A NÉVOA DA DESINFORMAÇÃO</h2>
+        ${solid ? `
+          <div style="position:relative; width:100%; margin:20px 0; border-radius:14px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
+            <img src="Nevoa.png" style="width:100%; display:block; filter: brightness(1.15) saturate(0.75) contrast(0.92);">
+            <div style="position:absolute; inset:0; background:
+              radial-gradient(circle at 50% 38%, rgba(255,255,255,0.75), rgba(255,255,255,0.18) 28%, transparent 58%),
+              radial-gradient(circle at 22% 55%, rgba(255,255,255,0.45), transparent 26%),
+              radial-gradient(circle at 78% 48%, rgba(255,255,255,0.35), transparent 24%),
+              linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+              mix-blend-mode: screen;"></div>
+            <div style="position:absolute; left:0; right:0; bottom:0; height:38%; background:linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0));"></div>
+          </div>
+          <div class="banner good">
+            <strong>Parabéns! Você venceu a missão e poderá concorrer ao Prémio IgNobel da Odonto</strong><br>
+            · A névoa começa a se dissipar<br>
+            · A verdade se restaurou<br>
+            · O conhecimento voltou a iluminar o mundo de Scientia<br><br>
+          
+          </div>
+        ` : `
+          <div style="position:relative; width:100%; margin:20px 0; border-radius:14px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.6);">
+            <img src="Nevoa.png" style="width:100%; display:block; filter: brightness(0.42) contrast(1.28) saturate(0.6); transform: scale(1.06); transform-origin:center;">
+            <div style="position:absolute; inset:0; background:
+              radial-gradient(circle at 50% 42%, rgba(20,20,20,0.82), rgba(35,35,35,0.55) 30%, transparent 62%),
+              radial-gradient(circle at 25% 62%, rgba(30,30,30,0.62), transparent 26%),
+              radial-gradient(circle at 76% 52%, rgba(15,15,15,0.68), transparent 24%),
+              linear-gradient(180deg, rgba(0,0,0,0.36), rgba(0,0,0,0.18));"></div>
+            <div style="position:absolute; left:-5%; right:-5%; bottom:-6%; height:48%; background:radial-gradient(ellipse at center, rgba(18,18,18,0.78), rgba(18,18,18,0.36) 45%, transparent 78%); filter: blur(12px);"></div>
+          </div>
+          <div class="banner bad">
+            <strong>Você falhou. Tente novamente, ou então...</strong><br>
+            · A névoa crescerá<br>
+            · A ciência será distorcida<br>
+            · O mundo cairá na incerteza<br><br>
+          </div>
+        `}
+        
+        <div class="btnrow">
+          <button class="btn-primary" onclick="nextStep('intro-story')">Jogar novamente</button>
+        </div>
+      `;
+      pushRecord();
+      return;
+    }
+  }
+
+  function renderAdmin(){
+    const records = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]').sort((a,b) => (b.updatedAt || '').localeCompare(a.updatedAt || ''));
+    if(!records.length){
+      $('adminTable').innerHTML = `<div class="banner info">Nenhum registro salvo até o momento.</div>`;
+      return;
+    }
+    $('adminTable').innerHTML = `
+      <div class="section-box">
+        <table>
+          <thead>
+            <tr>
+              <th>Jogador</th>
+              <th>Turma</th>
+              <th>Última etapa</th>
+              <th>Atributos</th>
+              <th>Atualizado em</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${records.map((r,i) => `
+              <tr>
+                <td>${escapeHtml(r.playerName || '')}</td>
+                <td>${escapeHtml(r.playerClass || '')}</td>
+                <td>${escapeHtml(r.currentStep || '')}</td>
+                <td>${Object.entries(r.attrs || {}).map(([k,v]) => `${ATTR_LABELS[k]}: ${v}`).join('<br>')}</td>
+                <td>${escapeHtml((r.updatedAt || '').replace('T',' ').slice(0,19))}</td>
+              </tr>
+              <tr>
+                <td colspan="5">
+                  <details>
+                    <summary>Ver respostas de ${escapeHtml(r.playerName || 'jogador')}</summary>
+                    <pre style="white-space:pre-wrap;margin-top:10px">${escapeHtml(JSON.stringify(r.answers || {}, null, 2))}</pre>
+                  </details>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  $('startPlayerBtn').onclick = () => {
+    const name = $('playerName').value.trim();
+    const group = $('playerClass').value.trim();
+    if(!name){ alert('Digite o nome do jogador.'); return; }
+    freshPlayer();
+    state.playerName = name;
+    state.playerClass = group || 'Sem turma';
+    saveCurrentSession();
+    pushRecord();
+    showScreen('game');
+    render();
+  };
+
+  $('adminLoginBtn').onclick = () => {
+    const pass = $('adminPass').value;
+    if(pass !== ADMIN_PASSWORD){ alert('Senha incorreta.'); return; }
+    state.mode = 'admin';
+    saveCurrentSession();
+    showScreen('admin');
+    renderAdmin();
+  };
+
+  $('adminBackBtn').onclick = () => {
+    state.mode = null;
+    saveCurrentSession();
+    showScreen('auth');
+  };
+
+  $('saveExitBtn').onclick = backToAuth;
+  $('restartBtn').onclick = () => {
+    if(confirm('Deseja reiniciar a jornada deste jogador?')){
+      state.currentStep = 'intro-story';
+      state.mist = 78;
+      state.lastMessage = 'Jornada reiniciada.';
+      state.answers = {};
+      state.mission3 = {sabedoria:null, carisma:null, sagacidade:null, resiliencia:null, rigor:null, inteligencia:null};
+      state.finalOutcome = null;
+      pushRecord();
+      render();
+    }
+  };
+
+  $('refreshAdminBtn').onclick = renderAdmin;
+  $('clearAllBtn').onclick = () => {
+    if(confirm('Apagar todos os registros locais?')){
+      localStorage.removeItem(STORAGE_KEY);
+      renderAdmin();
+    }
+  };
+  $('exportBtn').onclick = () => {
+    const blob = new Blob([localStorage.getItem(STORAGE_KEY) || '[]'], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'arkhe_registros.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+
+  (function init(){
+    const saved = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
+    if(saved && saved.playerName && saved.sessionId){
+      Object.assign(state, saved);
+      showScreen('auth');
+      $('playerName').value = saved.playerName || '';
+      $('playerClass').value = saved.playerClass || '';
+    } else {
+      showScreen('auth');
+    }
+    saveCurrentSession();
+  })();
+})();
+</script>
+
+</body>
+</html>
